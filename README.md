@@ -17,8 +17,16 @@
 i've seen some "minimal" system fetch with a boatload of deps
 just for displaying basic system info, ridiculous.
 
-so i decided to make gotcha (and novofetch, another minimal
+so i decided to make gotcha (and [novofetch](https://github.com/yehorovye/novofetch), another minimal
 system fetch in V).
+
+# installing
+
+this program isn't officially uploaded as a package anywhere,
+instead, i encourage you to build it yourself or using
+[the latest binary](https://github.com/yehorovye/gotcha/releases).
+
+you are free to distribute this as a package.
 
 # license
 
