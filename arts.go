@@ -5,7 +5,10 @@ this file will contain all of the distro arts. :)))
 
 package main
 
-import "gotcha/color"
+import (
+	"gotcha/color"
+	"slices"
+)
 
 type Art struct {
 	Name string
@@ -61,13 +64,14 @@ var Arts []Art = []Art{
 }
 
 // quick function to find art by name lol
-// btw why go be so complex when trying to filter
-// arrays? LOLLLLLLLLEWOJIDGVHJ
 func FindArt(name string) *Art {
-	for i := range Arts {
-		if Arts[i].Name == name {
-			return &Arts[i]
-		}
+	art := slices.IndexFunc(Arts, func(e Art) bool {
+		return e.Name == name
+	})
+
+	if art == -1 {
+		return nil
 	}
-	return nil
+
+	return &Arts[art]
 }

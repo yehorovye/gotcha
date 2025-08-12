@@ -75,12 +75,9 @@ func main() {
 		fmt.Sprintf("%s %s", color.Colorize("shell:", color.BrightCyan), shell),
 	}
 
-	max := len(art.Art)
-	if len(info) > max {
-		max = len(info)
-	}
+	m := max(len(info), len(art.Art))
 
-	for i := 0; i < max; i++ {
+	for i := range m {
 		left := ""
 		right := ""
 
