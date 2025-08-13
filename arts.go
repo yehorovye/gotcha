@@ -78,6 +78,22 @@ var Arts []Art = []Art{
 		},
 	},
 	{
+		Name: "manjaro",
+		Art: []string{
+			color.Colorize("≠≠≠≠≠≠≠≠≠≠≠≠≠ ≠≠≠≠≠≠", color.Green),
+			color.Colorize("≠≠≠≠≠≠≠≠≠≠≠≠≠ ≠≠≠≠≠≠", color.Green),
+			color.Colorize("≠≠≠≠≠≠≠≠≠≠≠≠≠ ≠≠≠≠≠≠", color.Green),
+			color.Colorize("≠≠≠≠≠≠        ≠≠≠≠≠≠", color.Green),
+			color.Colorize("≠≠≠≠≠≠ ≠≠≠≠≠≠ ≠≠≠≠≠≠", color.Green),
+			color.Colorize("≠≠≠≠≠≠ ≠≠≠≠≠≠ ≠≠≠≠≠≠", color.Green),
+			color.Colorize("≠≠≠≠≠≠ ≠≠≠≠≠≠ ≠≠≠≠≠≠", color.Green),
+			color.Colorize("≠≠≠≠≠≠ ≠≠≠≠≠≠ ≠≠≠≠≠≠", color.Green),
+			color.Colorize("≠≠≠≠≠≠ ≠≠≠≠≠≠ ≠≠≠≠≠≠", color.Green),
+			color.Colorize("≠≠≠≠≠≠ ≠≠≠≠≠≠ ≠≠≠≠≠≠", color.Green),
+			color.Colorize("≠≠≠≠≠≠ ≠≠≠≠≠≠ ≠≠≠≠≠≠", color.Green),
+		},
+	},
+	{
 		Name: "windows", // note: i was FORCED by a friend to make windows support,
 		// my unique condition was that he had to make windows support.
 		Art: []string{
@@ -91,6 +107,10 @@ var Arts []Art = []Art{
 			color.Colorize("××------ ÷÷÷÷÷÷×××××", color.BrightBlue),
 			color.Colorize(" ------- ÷÷÷÷×××××××", color.BrightBlue),
 		},
+	},
+	{
+		Name: "none",
+		Art:  []string{},
 	},
 }
 

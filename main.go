@@ -12,18 +12,6 @@ import (
 	"gotcha/color"
 )
 
-func formatDuration(secs int) string {
-	if secs < 0 {
-		return "unknown duration"
-	}
-
-	h := secs / 3600
-	m := (secs % 3600) / 60
-	s := secs % 60
-
-	return fmt.Sprintf("%dh %dm %ds", h, m, s)
-}
-
 func getPkgCounts() string {
 	counts := make(map[string]int)
 
@@ -83,20 +71,19 @@ func getPkgCounts() string {
 }
 
 func getMemoryUsage() string {
-	var total uint64
-	var avail uint64
-
-	mem, err := os.ReadFile("/proc/meminfo")
+	meminfo, err := os.ReadFile("/proc/meminfo")
 	if err != nil {
 		return color.Colorize("couldn't read meminfo", color.BrightRed)
 	}
 
-	lines := strings.SplitSeq(string(mem), "\n")
+	var total, available uint64
+
+	lines := strings.SplitSeq(string(meminfo), "\n")
 	for line := range lines {
-		if valueStr, ok := strings.CutPrefix(line, "MemTotal:"); ok {
-			total, _ = strconv.ParseUint(strings.Fields(strings.TrimSpace(valueStr))[0], 10, 64)
-		} else if valueStr, ok := strings.CutPrefix(line, "MemAvailable:"); ok {
-			avail, _ = strconv.ParseUint(strings.Fields(strings.TrimSpace(valueStr))[0], 10, 64)
+		if val, ok := strings.CutPrefix(line, "MemTotal:"); ok {
+			total, _ = strconv.ParseUint(strings.Fields(strings.TrimSpace(val))[0], 10, 64)
+		} else if val, ok := strings.CutPrefix(line, "MemAvailable:"); ok {
+			available, _ = strconv.ParseUint(strings.Fields(strings.TrimSpace(val))[0], 10, 64)
 		}
 	}
 
@@ -104,20 +91,10 @@ func getMemoryUsage() string {
 		return color.Colorize("meminfo missing MemTotal", color.BrightRed)
 	}
 
-	totalF := float64(total) * 1024
-	availF := float64(avail) * 1024
-
-	usedPct := (totalF - availF) / totalF * 100
-
-	var unit string
-	var div float64
-	if totalF >= 1024*1024*1024 {
-		unit = "GB"
-		div = 1024 * 1024 * 1024
-	} else {
-		unit = "MB"
-		div = 1024 * 1024
-	}
+	totalBytes := total * 1024
+	availableBytes := available * 1024
+	usedBytes := totalBytes - availableBytes
+	usedPct := float64(usedBytes) / float64(totalBytes) * 100
 
 	var usageColor string
 	switch {
@@ -129,9 +106,9 @@ func getMemoryUsage() string {
 		usageColor = color.BrightGreen
 	}
 
-	return fmt.Sprintf("%s available (%s total) (%s used)",
-		color.Colorize(fmt.Sprintf("%.2f%s", availF/div, unit), color.BrightGreen),
-		color.Colorize(fmt.Sprintf("%.2f%s", totalF/div, unit), color.BrightGreen),
+	return fmt.Sprintf("memory: %s available (%s total) (%s used)",
+		color.Colorize(HumanBytes(availableBytes), color.BrightGreen),
+		color.Colorize(HumanBytes(totalBytes), color.BrightGreen),
 		color.Colorize(fmt.Sprintf("%.1f%%", usedPct), usageColor),
 	)
 }
@@ -148,7 +125,7 @@ func getUptime() string {
 		return "invalid duration"
 	}
 
-	return formatDuration(int(secs))
+	return FormatDuration(int(secs))
 }
 
 func getShell() string {
@@ -204,6 +181,48 @@ func getGPUNames() []string {
 	return gpus
 }
 
+func getDiskUsage() string {
+	out, err := exec.Command("df", "-B1", "/").Output()
+	if err != nil {
+		return color.Colorize("couldn't get disk usage", color.BrightRed)
+	}
+
+	lines := bytes.Split(out, []byte("\n"))
+	if len(lines) < 2 {
+		return color.Colorize("unexpected df output", color.BrightRed)
+	}
+
+	cols := strings.Fields(string(lines[1]))
+	if len(cols) < 3 {
+		return color.Colorize("unexpected df columns", color.BrightRed)
+	}
+
+	total, err1 := strconv.ParseUint(cols[1], 10, 64)
+	used, err2 := strconv.ParseUint(cols[2], 10, 64)
+	if err1 != nil || err2 != nil {
+		return color.Colorize("failed parsing df output", color.BrightRed)
+	}
+
+	available := total - used
+	usedPct := float64(used) / float64(total) * 100
+
+	var usageColor string
+	switch {
+	case usedPct >= 80:
+		usageColor = color.BrightRed
+	case usedPct >= 50:
+		usageColor = color.BrightYellow
+	default:
+		usageColor = color.BrightGreen
+	}
+
+	return fmt.Sprintf("%s available (%s total) (%s used)",
+		color.Colorize(HumanBytes(available), color.BrightGreen),
+		color.Colorize(HumanBytes(total), color.BrightGreen),
+		color.Colorize(fmt.Sprintf("%.1f%%", usedPct), usageColor),
+	)
+}
+
 var distro string
 
 func init() {
@@ -217,6 +236,7 @@ func main() {
 	shell := getShell()
 	gpuNames := getGPUNames()
 	pkgCounts := getPkgCounts()
+	diskUsage := getDiskUsage()
 
 	art := FindArt(distro)
 	if art == nil {
@@ -232,10 +252,10 @@ func main() {
 	info := []string{
 		fmt.Sprintf("%s@%s", color.Colorize(user, color.Green), color.Colorize(hostname, color.Yellow)),
 		fmt.Sprintf("%s %s", color.Colorize("memory:", color.BrightCyan), memoryUsage),
+		fmt.Sprintf("%s %s", color.Colorize("disk usage:", color.BrightCyan), diskUsage),
 		fmt.Sprintf("%s %s", color.Colorize("uptime:", color.BrightCyan), uptime),
 		fmt.Sprintf("%s %s", color.Colorize("shell:", color.BrightCyan), shell),
 		fmt.Sprintf("%s %s", color.Colorize("packages:", color.BrightCyan), pkgCounts),
-		fmt.Sprintf("%s %s", color.Colorize("disk usage:", color.BrightCyan), color.Colorize("not yet :P", color.BgRed)),
 	}
 
 	for gpu := range gpuNames {

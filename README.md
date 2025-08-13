@@ -16,26 +16,35 @@
 <img src="/assets/distros.gif" alt="distros demo" />
 </details>
 
+### features
 
-### why gotcha over x?
-
-1. gotcha has no external deps.
-2. it is published under public domain.
-3. simple yet beautiful.
+1. 0 external dependencies.
+2. dedicated to public domain. see [LICENSE](LICENSE).
+3. balanced between look and performance.
 4. `NO_COLOR` spec compliant.
-5. fassssst!¹
-6. well-documented. (ig)
-7. rejects modern scum. macos are not supported (and will never be). (windows may be supported)
-8. approved by jesus.
-9. idk.
+6. easy to use.
+7. UNIX only.
+8. unit colors change depending on the usage. (e.g: if you are using too much ram, it will appear **red**)
 
-> ¹: gpu data makes the program slower, use `SKIP_GPU_DATA=1` to skip it.
+### why
 
 i've seen some "minimal" system fetch with a boatload of deps
 just for displaying basic system info, ridiculous.
 
 so i decided to make gotcha (and [novofetch](https://github.com/yehorovye/novofetch), another minimal
 system fetch in V).
+
+### valid env variables
+
+* `NO_COLOR` - returns the output with absolutely 0 ansi colors.
+* `SKIP_GPU_DATA` - skip gpu data retrieval, makes program faster.
+
+### todo
+
+- [ ] change main color depending on the distro.
+- [ ] windows support (asked by @MARCROCK22).
+- [ ] more arts.
+- [ ] optimize gpu stuff.
 
 # installing
 
