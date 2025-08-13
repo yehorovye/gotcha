@@ -2,6 +2,8 @@
 
 **real** simple system fetch with the looks..? (is this a hyperland reference??)
 
+![demo](/assets/demo.gif)
+
 ### why gotcha over x?
 
 1. gotcha has no external deps.
@@ -10,7 +12,7 @@
 4. `NO_COLOR` spec compliant.
 5. fassssst!
 6. well-documented. (ig)
-7. rejects modern scum. windows or macos are not supported (and will never be).
+7. rejects modern scum. macos are not supported (and will never be). (windows may be supported)
 8. approved by jesus.
 9. idk.
 

@@ -37,6 +37,8 @@
           default = pkgs.mkShell {
             packages = with pkgs; [
               go
+              gnumake
+              vhs # i am useless </3
             ];
           };
         }
