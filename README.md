@@ -11,6 +11,12 @@
 
 ![demo](/assets/demo.gif)
 
+<details>
+<summary><b>custom distro art</b></summary>
+<img src="/assets/distros.gif" alt="distros demo" />
+</details>
+
+
 ### why gotcha over x?
 
 1. gotcha has no external deps.
