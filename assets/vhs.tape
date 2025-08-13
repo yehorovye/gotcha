@@ -1,10 +1,8 @@
 Output assets/demo.gif
 
 Set Shell nu
-Type "cls"
-Sleep 200ms
-Enter
+Sleep 500ms
 Type "go run ."
 Sleep 500ms
 Enter
-Sleep 5s
+Sleep 10s

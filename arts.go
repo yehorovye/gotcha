@@ -62,6 +62,22 @@ var Arts []Art = []Art{
 		},
 	},
 	{
+		Name: "gentoo",
+		Art: []string{
+			color.Colorize("      ==≠==         ", color.White),
+			color.Colorize("   =≈≈≈≈≈≠≠≠≠=      ", color.White),
+			color.Colorize("  ≠≈≈≈≈≈≈≠≠"+color.Colorize("0", color.BrightMagenta)+color.Colorize("0", color.BrightMagenta)+color.Colorize("0", color.BrightMagenta)+"≠≠=   ", color.White),
+			color.Colorize(" ×≠≈≈≈≈≈=××"+color.Colorize("0", color.BrightMagenta)+color.Colorize("0", color.BrightMagenta)+color.Colorize("0", color.BrightMagenta)+color.Colorize("0", color.BrightMagenta)+"≠≠=  ", color.White),
+			color.Colorize("  ×÷÷≠≈≈≈≈≈≠≠≠≠≠≠≠≠ ", color.White),
+			color.Colorize("     ÷≈≈≈≈≈≠≠≠≠≠≠≈× ", color.White),
+			color.Colorize("   ÷≈≈≈≈≈≈≈≠≠≠≠≈÷÷  ", color.White),
+			color.Colorize("  ≠≈≈≈≈≈≈≈≠≠≠≈=×    ", color.White),
+			color.Colorize(" =≠≠≠≠≠≠≠≠≈=÷×      ", color.White),
+			color.Colorize(" ××≠≠≠≠÷÷÷÷         ", color.White),
+			color.Colorize("   ÷÷÷×             ", color.White),
+		},
+	},
+	{
 		Name: "windows", // note: i was FORCED by a friend to make windows support,
 		// my unique condition was that he had to make windows support.
 		Art: []string{

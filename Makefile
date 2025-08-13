@@ -28,7 +28,3 @@ fmt:
 lint:
 	go vet ./...
 
-.PHONY: vhs
-vhs:
-	vhs ./assets/vhs.tape
-
