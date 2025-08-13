@@ -65,7 +65,6 @@ var Arts []Art = []Art{
 		Name: "windows", // note: i was FORCED by a friend to make windows support,
 		// my unique condition was that he had to make windows support.
 		Art: []string{
-			color.Colorize("              ===÷÷÷", color.BrightBlue),
 			color.Colorize(" ÷÷÷×××× ====÷÷÷÷÷÷÷", color.BrightBlue),
 			color.Colorize("÷÷×××××× ===÷÷=÷÷÷÷÷", color.BrightBlue),
 			color.Colorize("÷××××××× =÷÷÷÷÷÷÷÷÷÷", color.BrightBlue),
@@ -75,7 +74,6 @@ var Arts []Art = []Art{
 			color.Colorize("××××---- ÷÷÷÷÷÷÷÷×××", color.BrightBlue),
 			color.Colorize("××------ ÷÷÷÷÷÷×××××", color.BrightBlue),
 			color.Colorize(" ------- ÷÷÷÷×××××××", color.BrightBlue),
-			color.Colorize("              ××××××", color.BrightBlue),
 		},
 	},
 }
