@@ -254,7 +254,7 @@ func main() {
 	user := os.Getenv("USER")
 	hostname, err := os.Hostname()
 	if err != nil {
-		hostname = "unknown"
+		hostname = unknown
 	}
 
 	divider := os.Getenv("DIVIDER")
