@@ -91,7 +91,7 @@ func getPkgCounts() string {
 func getMemoryUsage() string {
 	meminfo, err := os.ReadFile("/proc/meminfo")
 	if err != nil {
-		return color.Colorize("couldn't read meminfo", color.BrightRed)
+		return unknown
 	}
 
 	var total, available uint64
@@ -106,7 +106,7 @@ func getMemoryUsage() string {
 	}
 
 	if total == 0 {
-		return color.Colorize("meminfo missing MemTotal", color.BrightRed)
+		return unknown
 	}
 
 	totalBytes := total * 1024
@@ -125,8 +125,8 @@ func getMemoryUsage() string {
 	}
 
 	return fmt.Sprintf("%s / %s (%s used)",
-		color.Colorize(HumanBytes(availableBytes), color.Green),
-		color.Colorize(HumanBytes(totalBytes), color.Green),
+		HumanBytes(availableBytes),
+		HumanBytes(totalBytes),
 		color.Colorize(fmt.Sprintf("%.1f%%", usedPct), usageColor),
 	)
 }
@@ -134,13 +134,13 @@ func getMemoryUsage() string {
 func getUptime() string {
 	up, err := os.ReadFile("/proc/uptime")
 	if err != nil {
-		return "couldn't read uptime"
+		return unknown
 	}
 
 	uptime := strings.Split(string(up), " ")[0]
 	secs, err := strconv.ParseFloat(uptime, 64)
 	if err != nil {
-		return "invalid duration"
+		return unknown
 	}
 
 	return FormatDuration(int(secs))
@@ -149,7 +149,7 @@ func getUptime() string {
 func getShell() string {
 	sh := os.Getenv("SHELL")
 	if sh == "" {
-		sh = "unknown"
+		sh = unknown
 	}
 
 	shell := strings.Split(sh, "/")
@@ -160,23 +160,23 @@ func getShell() string {
 func getDiskUsage() string {
 	out, err := exec.Command("df", "-B1", "/").Output()
 	if err != nil {
-		return color.Colorize("couldn't get disk usage", color.BrightRed)
+		return unknown
 	}
 
 	lines := bytes.Split(out, []byte("\n"))
 	if len(lines) < 2 {
-		return color.Colorize("unexpected df output", color.BrightRed)
+		return unknown
 	}
 
 	cols := strings.Fields(string(lines[1]))
 	if len(cols) < 3 {
-		return color.Colorize("unexpected df columns", color.BrightRed)
+		return unknown
 	}
 
 	total, err1 := strconv.ParseUint(cols[1], 10, 64)
 	used, err2 := strconv.ParseUint(cols[2], 10, 64)
 	if err1 != nil || err2 != nil {
-		return color.Colorize("failed parsing df output", color.BrightRed)
+		return unknown
 	}
 
 	available := total - used
@@ -193,8 +193,8 @@ func getDiskUsage() string {
 	}
 
 	return fmt.Sprintf("%s / %s (%s used)",
-		color.Colorize(HumanBytes(available), color.Green),
-		color.Colorize(HumanBytes(total), color.Green),
+		HumanBytes(available),
+		HumanBytes(total),
 		color.Colorize(fmt.Sprintf("%.1f%%", usedPct), usageColor),
 	)
 }
@@ -265,15 +265,15 @@ func main() {
 	info := []string{
 		fmt.Sprintf("%s@%s", color.Colorize(user, color.Green), color.Colorize(hostname, color.Yellow)),
 		fmt.Sprintf("%s", strings.Repeat(color.Colorize(divider, color.Yellow), len(fmt.Sprintf("%s@%s", user, hostname)))),
-		fmt.Sprintf("%s %s", color.Colorize("os:", color.BrightCyan), distroName),
-		fmt.Sprintf("%s %s", color.Colorize("kernel:", color.BrightCyan), kernel),
-		fmt.Sprintf("%s %s", color.Colorize("memory:", color.BrightCyan), memoryUsage),
-		fmt.Sprintf("%s %s", color.Colorize("disk usage:", color.BrightCyan), diskUsage),
-		fmt.Sprintf("%s %s", color.Colorize("uptime:", color.BrightCyan), uptime),
-		fmt.Sprintf("%s %s", color.Colorize("shell:", color.BrightCyan), shell),
-		fmt.Sprintf("%s %s", color.Colorize("desktop:", color.BrightCyan), de),
-		fmt.Sprintf("%s %s (%s)", color.Colorize("term:", color.BrightCyan), term, color.Colorize(colorterm, color.Green)),
-		fmt.Sprintf("%s %s", color.Colorize("packages:", color.BrightCyan), pkgCounts),
+		fmt.Sprintf("%s %s", color.Colorize("os:", art.Accent), distroName),
+		fmt.Sprintf("%s %s", color.Colorize("kernel:", art.Accent), kernel),
+		fmt.Sprintf("%s %s", color.Colorize("memory:", art.Accent), memoryUsage),
+		fmt.Sprintf("%s %s", color.Colorize("disk usage:", art.Accent), diskUsage),
+		fmt.Sprintf("%s %s", color.Colorize("uptime:", art.Accent), uptime),
+		fmt.Sprintf("%s %s", color.Colorize("shell:", art.Accent), shell),
+		fmt.Sprintf("%s %s", color.Colorize("desktop:", art.Accent), de),
+		fmt.Sprintf("%s %s (%s)", color.Colorize("term:", art.Accent), term, color.Colorize(colorterm, color.Green)),
+		fmt.Sprintf("%s %s", color.Colorize("packages:", art.Accent), pkgCounts),
 	}
 
 	m := max(len(info), len(art.Art))

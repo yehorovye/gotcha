@@ -12,13 +12,15 @@ import (
 )
 
 type Art struct {
-	Name string
-	Art  []string
+	Name   string
+	Art    []string
+	Accent string
 }
 
 var Arts []Art = []Art{
 	{
-		Name: "nixos",
+		Name:   "nixos",
+		Accent: color.Blue,
 		Art: []string{
 			color.Colorize("          ++      -----     --          ", color.Blue),
 			color.Colorize("         ++++      -----   ----         ", color.Blue),
@@ -43,7 +45,8 @@ var Arts []Art = []Art{
 		},
 	},
 	{
-		Name: "debian",
+		Name:   "debian",
+		Accent: color.Red,
 		Art: []string{
 			color.Colorize("                -- .                    ", color.Red),
 			color.Colorize("            ----+++------------         ", color.Red),
@@ -74,7 +77,8 @@ var Arts []Art = []Art{
 		},
 	},
 	{
-		Name: "bazzite",
+		Name:   "bazzite",
+		Accent: color.Magenta,
 		Art: []string{
 			color.Colorize("      ######++++##########              ", color.Magenta),
 			color.Colorize("    ########----##############          ", color.Magenta),
@@ -97,7 +101,8 @@ var Arts []Art = []Art{
 		},
 	},
 	{
-		Name: "arch",
+		Name:   "arch",
+		Accent: color.Blue,
 		Art: []string{
 			color.Colorize("                   ++                   ", color.Blue),
 			color.Colorize("                  ++++                  ", color.Blue),
@@ -123,7 +128,8 @@ var Arts []Art = []Art{
 		},
 	},
 	{
-		Name: "gentoo",
+		Name:   "gentoo",
+		Accent: color.Magenta,
 		Art: []string{
 			color.Colorize("           --.   ...---                 ", color.Magenta),
 			color.Colorize("        -. .      ......--              ", color.Magenta),
@@ -148,7 +154,8 @@ var Arts []Art = []Art{
 		},
 	},
 	{
-		Name: "manjaro",
+		Name:   "manjaro",
+		Accent: color.Green,
 		Art: []string{
 			color.Colorize("--------------------------   -----------", color.Green),
 			color.Colorize("--------------------------   -----------", color.Green),
@@ -175,7 +182,8 @@ var Arts []Art = []Art{
 		},
 	},
 	{
-		Name: "void",
+		Name:   "void",
+		Accent: color.Green,
 		Art: []string{
 			color.Colorize("                   ------------                   ", color.Green),
 			color.Colorize("               --------------------               ", color.Green),
@@ -202,7 +210,8 @@ var Arts []Art = []Art{
 		},
 	},
 	{
-		Name: "void-textless",
+		Name:   "void-textless",
+		Accent: color.Green,
 		Art: []string{
 			color.Colorize("              ------------              ", color.Green),
 			color.Colorize("          --------------------          ", color.Green),
@@ -229,7 +238,8 @@ var Arts []Art = []Art{
 		},
 	},
 	{
-		Name: "artix",
+		Name:   "artix",
+		Accent: color.Cyan,
 		Art: []string{
 			color.Colorize("                   --                   ", color.Cyan),
 			color.Colorize("                   --                   ", color.Cyan),
@@ -256,7 +266,8 @@ var Arts []Art = []Art{
 		},
 	},
 	{
-		Name: "freebsd",
+		Name:   "freebsd",
+		Accent: color.BrightRed,
 		Art: []string{
 			color.Colorize("++++++                             +++++", color.BrightRed),
 			color.Colorize("++++++++++  +++++++++++++++++  +++++++++", color.BrightRed),
@@ -282,7 +293,8 @@ var Arts []Art = []Art{
 		},
 	},
 	{
-		Name: "opensuse",
+		Name:   "opensuse",
+		Accent: color.Green,
 		Art: []string{
 			color.Colorize("     +++++++++++++++++++++              ", color.Green),
 			color.Colorize("     +++             ++++++++           ", color.Green),
@@ -305,35 +317,9 @@ var Arts []Art = []Art{
 		},
 	},
 	{
-		Name: "windows", // note: i was FORCED by a friend to make windows support,
-		// my unique condition was that he had to make windows support.
-		Art: []string{
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("                                        ", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-			color.Colorize("+++++++++++++++++++  +++++++++++++++++++", color.Cyan),
-		},
-	},
-	{
-		Name: "none",
-		Art:  []string{},
+		Name:   "none",
+		Accent: color.Blue,
+		Art:    []string{},
 	},
 }
 

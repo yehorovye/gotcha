@@ -9,13 +9,15 @@
 
 **real** simple system fetch with the looks..? (is this a hyperland reference??)
 
-![sample](/assets/normal.png)
+![sample](/assets/nixos.png)
 
 <details>
 <summary><b>more screenshots</b></summary>
 <img src="/assets/debian.png" alt="debian demo" />
-<img src="/assets/none.png" alt="none demo" />
+<img src="/assets/arch.png" alt="arch demo" />
 <img src="/assets/void.png" alt="void demo" />
+<img src="/assets/gentoo.png" alt="gentoo demo" />
+<img src="/assets/bazzite.png" alt="bazzite demo" />
 </details>
 
 ### features
