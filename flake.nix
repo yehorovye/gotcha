@@ -38,7 +38,7 @@
             packages = with pkgs; [
               go
               gnumake
-              vhs # i am useless </3
+              charm-freeze
             ];
           };
         }

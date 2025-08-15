@@ -9,11 +9,13 @@
 
 **real** simple system fetch with the looks..? (is this a hyperland reference??)
 
-![demo](/assets/demo.gif)
+![sample](/assets/normal.png)
 
 <details>
-<summary><b>custom distro art</b></summary>
-<img src="/assets/distros.gif" alt="distros demo" />
+<summary><b>more screenshots</b></summary>
+<img src="/assets/debian.png" alt="debian demo" />
+<img src="/assets/none.png" alt="none demo" />
+<img src="/assets/void.png" alt="void demo" />
 </details>
 
 ### features
@@ -36,15 +38,14 @@ system fetch in V).
 
 ### valid env variables
 
-* `NO_COLOR` - returns the output with absolutely 0 ansi colors.
-* `SKIP_GPU_DATA` - skip gpu data retrieval, makes program faster.
+* `NO_COLOR` - returns the output with absolutely 0 ansi colors. (default: 0)
+* `DIVIDER` - string to use as divider between user and data. (default: -)
 
 ### todo
 
 - [ ] change main color depending on the distro.
 - [ ] windows support (asked by @MARCROCK22).
-- [ ] more arts.
-- [ ] optimize gpu stuff.
+- [x] more arts.
 
 # installing
 

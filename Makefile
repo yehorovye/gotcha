@@ -4,6 +4,10 @@ BUILD_DIR := bin
 .PHONY: all
 all: build
 
+.PHONY: build-static
+build-static:
+	env CGO_ENABLED=0 go build -o $(BUILD_DIR)/$(APP_NAME) -a -ldflags '-extldflags "-static"' .
+
 .PHONY: build
 build:
 	go build -o $(BUILD_DIR)/$(APP_NAME) .

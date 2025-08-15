@@ -12,6 +12,24 @@ import (
 	"gotcha/color"
 )
 
+var unknown string = color.Colorize("unknown", color.Red)
+
+func getDistro() string {
+	data, err := os.ReadFile("/etc/os-release")
+	if err != nil {
+		return unknown
+	}
+
+	lines := strings.SplitSeq(string(data), "\n")
+	for line := range lines {
+		if value, ok := strings.CutPrefix(line, "PRETTY_NAME="); ok {
+			return strings.Trim(value, `"'`)
+		}
+	}
+
+	return unknown
+}
+
 func getPkgCounts() string {
 	counts := make(map[string]int)
 
@@ -106,9 +124,9 @@ func getMemoryUsage() string {
 		usageColor = color.BrightGreen
 	}
 
-	return fmt.Sprintf("memory: %s available (%s total) (%s used)",
-		color.Colorize(HumanBytes(availableBytes), color.BrightGreen),
-		color.Colorize(HumanBytes(totalBytes), color.BrightGreen),
+	return fmt.Sprintf("%s / %s (%s used)",
+		color.Colorize(HumanBytes(availableBytes), color.Green),
+		color.Colorize(HumanBytes(totalBytes), color.Green),
 		color.Colorize(fmt.Sprintf("%.1f%%", usedPct), usageColor),
 	)
 }
@@ -137,48 +155,6 @@ func getShell() string {
 	shell := strings.Split(sh, "/")
 
 	return shell[len(shell)-1]
-}
-
-func getGPUNames() []string {
-	// this function is slow asfuck lol
-	if os.Getenv("SKIP_GPU_DATA") == "1" {
-		return []string{}
-	}
-
-	out, err := exec.Command("lspci").Output()
-	if err != nil {
-		return []string{}
-	}
-
-	lines := strings.Split(string(out), "\n")
-	var gpus []string
-
-	for _, line := range lines {
-		if strings.Contains(line, "VGA") || strings.Contains(line, "3D controller") {
-			descStart := strings.Index(line, ": ")
-			if descStart == -1 {
-				continue
-			}
-			desc := strings.TrimSpace(line[descStart+2:])
-
-			if start := strings.Index(desc, "["); start != -1 {
-				if end := strings.Index(desc, "]"); end != -1 && end > start {
-					gpus = append(gpus, strings.TrimSpace(desc[start+1:end]))
-					continue
-				}
-			}
-
-			parts := strings.Fields(desc)
-			if len(parts) >= 3 {
-				short := strings.Join(parts[len(parts)-3:], " ")
-				gpus = append(gpus, short)
-			} else {
-				gpus = append(gpus, desc)
-			}
-		}
-	}
-
-	return gpus
 }
 
 func getDiskUsage() string {
@@ -216,11 +192,39 @@ func getDiskUsage() string {
 		usageColor = color.BrightGreen
 	}
 
-	return fmt.Sprintf("%s available (%s total) (%s used)",
-		color.Colorize(HumanBytes(available), color.BrightGreen),
-		color.Colorize(HumanBytes(total), color.BrightGreen),
+	return fmt.Sprintf("%s / %s (%s used)",
+		color.Colorize(HumanBytes(available), color.Green),
+		color.Colorize(HumanBytes(total), color.Green),
 		color.Colorize(fmt.Sprintf("%.1f%%", usedPct), usageColor),
 	)
+}
+
+func getKernel() string {
+	data, err := os.ReadFile("/proc/version")
+	if err == nil {
+		fields := strings.Fields(string(data))
+		if len(fields) >= 3 {
+			return fields[2]
+		}
+	}
+
+	out, err := exec.Command("uname", "-r").Output()
+	if err != nil {
+		return unknown
+	}
+	return strings.TrimSpace(string(out))
+}
+
+func getDE() string {
+	de := os.Getenv("XDG_CURRENT_DESKTOP")
+	if de == "" {
+		de = os.Getenv("DESKTOP_SESSION")
+		if de == "" {
+			de = unknown
+		}
+	}
+
+	return de
 }
 
 var distro string
@@ -234,13 +238,17 @@ func main() {
 	memoryUsage := getMemoryUsage()
 	uptime := getUptime()
 	shell := getShell()
-	gpuNames := getGPUNames()
 	pkgCounts := getPkgCounts()
 	diskUsage := getDiskUsage()
+	distroName := getDistro()
+	kernel := getKernel()
+	de := getDE()
 
-	art := FindArt(distro)
+	term, colorterm := os.Getenv("TERM"), os.Getenv("COLORTERM")
+
+	art := FindArt(distro, strings.ToLower(distroName))
 	if art == nil {
-		art = &Arts[0] // todo: better fallbacks ig
+		art = &Arts[len(Arts)-1]
 	}
 
 	user := os.Getenv("USER")
@@ -249,17 +257,23 @@ func main() {
 		hostname = "unknown"
 	}
 
+	divider := os.Getenv("DIVIDER")
+	if divider == "" {
+		divider = "-"
+	}
+
 	info := []string{
 		fmt.Sprintf("%s@%s", color.Colorize(user, color.Green), color.Colorize(hostname, color.Yellow)),
+		fmt.Sprintf("%s", strings.Repeat(color.Colorize(divider, color.Yellow), len(fmt.Sprintf("%s@%s", user, hostname)))),
+		fmt.Sprintf("%s %s", color.Colorize("os:", color.BrightCyan), distroName),
+		fmt.Sprintf("%s %s", color.Colorize("kernel:", color.BrightCyan), kernel),
 		fmt.Sprintf("%s %s", color.Colorize("memory:", color.BrightCyan), memoryUsage),
 		fmt.Sprintf("%s %s", color.Colorize("disk usage:", color.BrightCyan), diskUsage),
 		fmt.Sprintf("%s %s", color.Colorize("uptime:", color.BrightCyan), uptime),
 		fmt.Sprintf("%s %s", color.Colorize("shell:", color.BrightCyan), shell),
+		fmt.Sprintf("%s %s", color.Colorize("desktop:", color.BrightCyan), de),
+		fmt.Sprintf("%s %s (%s)", color.Colorize("term:", color.BrightCyan), term, color.Colorize(colorterm, color.Green)),
 		fmt.Sprintf("%s %s", color.Colorize("packages:", color.BrightCyan), pkgCounts),
-	}
-
-	for gpu := range gpuNames {
-		info = append(info, fmt.Sprintf("%s %s", color.Colorize(fmt.Sprintf("GPU #%d:", gpu), color.BrightCyan), color.Colorize(gpuNames[gpu], color.Green)))
 	}
 
 	m := max(len(info), len(art.Art))
@@ -275,6 +289,6 @@ func main() {
 			right = info[i]
 		}
 
-		fmt.Printf("%-10s %s\n", left, right)
+		fmt.Printf("%s %s\n", left, right)
 	}
 }
