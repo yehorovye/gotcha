@@ -29,6 +29,7 @@
 6. easy to use.
 7. UNIX only.
 8. unit colors change depending on the usage. (e.g: if you are using too much ram, it will appear **red**)
+9. customizable.
 
 ### why
 
@@ -41,7 +42,14 @@ system fetch in V).
 ### valid env variables
 
 * `NO_COLOR` - returns the output with absolutely 0 ansi colors. (default: 0)
+
+### config variables
+
+* `DISABLE` - fields to disable, separated with commas. (default: nil)
 * `DIVIDER` - string to use as divider between user and data. (default: -)
+
+by default, gotcha searches for a file called "config" on the same dir as the binary.
+alternatively you can pass flag "config" with the dir of the config to override it.
 
 ### todo
 
