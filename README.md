@@ -47,15 +47,10 @@ system fetch in V).
 
 * `DISABLE` - fields to disable, separated with commas. (default: nil)
 * `DIVIDER` - string to use as divider between user and data. (default: -)
+* MOUNTS
 
 by default, gotcha searches for a file called "config" on the same dir as the binary.
 alternatively you can pass flag "config" with the dir of the config to override it.
-
-### todo
-
-- [ ] change main color depending on the distro.
-- [ ] windows support (asked by @MARCROCK22).
-- [x] more arts.
 
 # installing
 

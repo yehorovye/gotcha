@@ -219,6 +219,16 @@ func GetDisksUsage() []DiskUsage {
 		return nil
 	}
 
+	mounts := config["MOUNTS"]
+	if mounts == "" {
+		mounts = "/boot,/"
+	}
+
+	filterMap := make(map[string]bool)
+	for mount := range strings.SplitSeq(mounts, ",") {
+		filterMap[strings.TrimSpace(mount)] = true
+	}
+
 	var results []DiskUsage
 
 	for _, line := range lines[1:] {
@@ -231,9 +241,13 @@ func GetDisksUsage() []DiskUsage {
 			continue
 		}
 
+		mountPoint := cols[5]
+		if !filterMap[mountPoint] {
+			continue
+		}
+
 		total, err1 := strconv.ParseUint(cols[1], 10, 64)
 		used, err2 := strconv.ParseUint(cols[2], 10, 64)
-		mountPoint := cols[5]
 
 		if err1 != nil || err2 != nil || total == 0 {
 			continue

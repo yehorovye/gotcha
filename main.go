@@ -24,9 +24,8 @@ func init() {
 	flag.Parse()
 
 	if cfgPath == "" {
-		exe, _ := os.Executable()
-		dir := filepath.Dir(exe)
-		cfgPath = filepath.Join(dir, "config")
+		homeDir, _ := os.UserHomeDir()
+		cfgPath = filepath.Join(homeDir, ".config", "gotcha")
 	}
 
 	if _, err := os.Stat(cfgPath); err == nil {
