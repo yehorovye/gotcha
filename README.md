@@ -7,12 +7,12 @@
 /____/
 ```
 
-**real** simple system fetch with the looks..? (is this a hyperland reference??)
+**Real** simple system fetch with the looks..? (is this a hyperland reference??)
 
 ![sample](/assets/nixos.png)
 
 <details>
-<summary><b>more screenshots</b></summary>
+<summary><b>More screenshots</b></summary>
 <img src="/assets/debian.png" alt="debian demo" />
 <img src="/assets/arch.png" alt="arch demo" />
 <img src="/assets/void.png" alt="void demo" />
@@ -20,46 +20,46 @@
 <img src="/assets/bazzite.png" alt="bazzite demo" />
 </details>
 
-### features
+### Features
 
 1. 0 external dependencies.
-2. dedicated to public domain. see [LICENSE](LICENSE).
-3. balanced between look and performance.
+2. Dedicated to public domain. see [LICENSE](LICENSE).
+3. Balanced between look and performance.
 4. `NO_COLOR` spec compliant.
-6. easy to use.
+6. Easy to use.
 7. UNIX only.
-8. unit colors change depending on the usage. (e.g: if you are using too much ram, it will appear **red**)
-9. customizable.
+8. Unit colors change depending on the usage. (e.g: if you are using too much ram, it will appear **red**)
+9. Customizable.
 
-### why
+### Why
 
-i've seen some "minimal" system fetch with a boatload of deps
+I've seen some "minimal" system fetch with a boatload of deps
 just for displaying basic system info, ridiculous.
 
-so i decided to make gotcha (and [novofetch](https://github.com/yehorovye/novofetch), another minimal
+So i decided to make gotcha (and [novofetch](https://github.com/yehorovye/novofetch), another minimal
 system fetch in V).
 
-### valid env variables
+### Valid env variables
 
-* `NO_COLOR` - returns the output with absolutely 0 ansi colors. (default: 0)
+* `NO_COLOR` - Returns the output with absolutely 0 ansi colors. (default: 0)
 
-### config variables
+### Config variables
 
-* `DISABLE` - fields to disable, separated with commas. (default: nil)
+* `DISABLE` - Fields to disable, separated with commas. (default: nil)
 * `DIVIDER` - string to use as divider between user and data. (default: -)
 * MOUNTS
 
-by default, gotcha searches for a file called "config" on the same dir as the binary.
+By default, gotcha searches for a file called "config" on the same dir as the binary.
 alternatively you can pass flag "config" with the dir of the config to override it.
 
-# installing
+# Installing
 
-this program isn't officially uploaded as a package anywhere,
+This program isn't officially uploaded as a package anywhere,
 instead, i encourage you to build it yourself or using
 [the latest binary](https://github.com/yehorovye/gotcha/releases).
 
-you are free to distribute this as a package.
+You are free to distribute this as a package.
 
-# license
+# License
 
 public domain, do whatever you want.
