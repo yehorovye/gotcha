@@ -6,7 +6,7 @@
   outputs =
     inputs:
     let
-      goVersion = 24;
+      goVersion = 25;
 
       supportedSystems = [
         "x86_64-linux"

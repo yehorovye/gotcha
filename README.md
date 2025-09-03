@@ -18,6 +18,8 @@
 <img src="/assets/void.png" alt="void demo" />
 <img src="/assets/gentoo.png" alt="gentoo demo" />
 <img src="/assets/bazzite.png" alt="bazzite demo" />
+<p>bocchi fetch by <a href="https://github.com/xknRiya">xknRiya</a></p>
+<img src="/assets/custom.png" alt="bocchi" />
 </details>
 
 ### features
@@ -47,7 +49,7 @@ system fetch in V).
 
 * `DISABLE` - fields to disable, separated with commas. (default: nil)
 * `DIVIDER` - string to use as divider between user and data. (default: -)
-* MOUNTS
+* `MOUNTS` - disk mounts to show, separated with commas. (default: /boot,/)
 
 by default, gotcha searches for a file called "config" on the same dir as the binary.
 alternatively you can pass flag "config" with the dir of the config to override it.
